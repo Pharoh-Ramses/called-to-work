@@ -1,57 +1,40 @@
 import { cn } from "~/lib/utils";
 import {
   Accordion,
-  AccordionItem,
-  AccordionHeader,
   AccordionContent,
+  AccordionHeader,
+  AccordionItem,
 } from "./Accordion";
 
-interface Tip {
-  type: "good" | "improve";
-  tip: string;
-  explanation: string;
-}
-
-interface DetailsProps {
-  feedback: Feedback;
-}
-
 const ScoreBadge = ({ score }: { score: number }) => {
-  const getBadgeStyles = () => {
-    if (score > 69) {
-      return {
-        bg: "bg-green-100",
-        text: "text-green-800",
-        icon: "/icons/check.svg",
-      };
-    }
-    if (score > 39) {
-      return {
-        bg: "bg-yellow-100",
-        text: "text-yellow-800",
-        icon: "/icons/warning.svg",
-      };
-    }
-    return {
-      bg: "bg-red-100",
-      text: "text-red-800",
-      icon: "/icons/cross.svg",
-    };
-  };
-
-  const styles = getBadgeStyles();
-
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 px-3 py-1 rounded-full",
-        styles.bg,
+        "flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px]",
+        score > 69
+          ? "bg-badge-green"
+          : score > 39
+          ? "bg-badge-yellow"
+          : "bg-badge-red"
       )}
     >
-      <img src={styles.icon} alt="Score status" className="w-4 h-4" />
-      <span className={cn("text-sm font-medium", styles.text)}>
+      <img
+        src={score > 69 ? "/icons/check.svg" : "/icons/warning.svg"}
+        alt="score"
+        className="size-4"
+      />
+      <p
+        className={cn(
+          "text-sm font-medium",
+          score > 69
+            ? "text-badge-green-text"
+            : score > 39
+            ? "text-badge-yellow-text"
+            : "text-badge-red-text"
+        )}
+      >
         {score}/100
-      </span>
+      </p>
     </div>
   );
 };
@@ -64,50 +47,58 @@ const CategoryHeader = ({
   categoryScore: number;
 }) => {
   return (
-    <div className="flex items-center justify-between w-full">
-      <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+    <div className="flex flex-row gap-4 items-center py-2">
+      <p className="text-2xl font-semibold">{title}</p>
       <ScoreBadge score={categoryScore} />
     </div>
   );
 };
 
-const CategoryContent = ({ tips }: { tips: Tip[] }) => {
+const CategoryContent = ({
+  tips,
+}: {
+  tips: { type: "good" | "improve"; tip: string; explanation: string }[];
+}) => {
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="flex flex-col gap-4 items-center w-full">
+      <div className="bg-gray-50 w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
         {tips.map((tip, index) => (
-          <div key={index} className="flex items-start gap-3">
+          <div className="flex flex-row gap-2 items-center" key={index}>
             <img
               src={
                 tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"
               }
-              alt={tip.type}
-              className="w-5 h-5 mt-0.5 flex-shrink-0"
+              alt="score"
+              className="size-5"
             />
-            <span className="text-gray-700 text-sm">{tip.tip}</span>
+            <p className="text-xl text-gray-500 ">{tip.tip}</p>
           </div>
         ))}
       </div>
-
-      <div className="space-y-3">
+      <div className="flex flex-col gap-4 w-full">
         {tips.map((tip, index) => (
           <div
-            key={index}
+            key={index + tip.tip}
             className={cn(
-              "p-4 rounded-lg border-l-4",
+              "flex flex-col gap-2 rounded-2xl p-4",
               tip.type === "good"
-                ? "bg-green-50 border-green-400"
-                : "bg-orange-50 border-orange-400",
+                ? "bg-green-50 border border-green-200 text-green-700"
+                : "bg-yellow-50 border border-yellow-200 text-yellow-700"
             )}
           >
-            <p
-              className={cn(
-                "text-sm",
-                tip.type === "good" ? "text-green-700" : "text-orange-700",
-              )}
-            >
-              {tip.explanation}
-            </p>
+            <div className="flex flex-row gap-2 items-center">
+              <img
+                src={
+                  tip.type === "good"
+                    ? "/icons/check.svg"
+                    : "/icons/warning.svg"
+                }
+                alt="score"
+                className="size-5"
+              />
+              <p className="text-xl font-semibold">{tip.tip}</p>
+            </div>
+            <p>{tip.explanation}</p>
           </div>
         ))}
       </div>
@@ -115,9 +106,9 @@ const CategoryContent = ({ tips }: { tips: Tip[] }) => {
   );
 };
 
-const Details = ({ feedback }: DetailsProps) => {
+const Details = ({ feedback }: { feedback: Feedback }) => {
   return (
-    <div className="w-full">
+    <div className="flex flex-col gap-4 w-full">
       <Accordion>
         <AccordionItem id="tone-style">
           <AccordionHeader itemId="tone-style">
@@ -130,7 +121,6 @@ const Details = ({ feedback }: DetailsProps) => {
             <CategoryContent tips={feedback.toneAndStyle.tips} />
           </AccordionContent>
         </AccordionItem>
-
         <AccordionItem id="content">
           <AccordionHeader itemId="content">
             <CategoryHeader
@@ -142,7 +132,6 @@ const Details = ({ feedback }: DetailsProps) => {
             <CategoryContent tips={feedback.content.tips} />
           </AccordionContent>
         </AccordionItem>
-
         <AccordionItem id="structure">
           <AccordionHeader itemId="structure">
             <CategoryHeader
@@ -154,7 +143,6 @@ const Details = ({ feedback }: DetailsProps) => {
             <CategoryContent tips={feedback.structure.tips} />
           </AccordionContent>
         </AccordionItem>
-
         <AccordionItem id="skills">
           <AccordionHeader itemId="skills">
             <CategoryHeader
