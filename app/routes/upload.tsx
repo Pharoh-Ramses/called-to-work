@@ -5,11 +5,14 @@ import FileUploader from "~/components/FileUploader";
 import Navbar from "~/components/Navbar";
 import { convertPdfToImage } from "~/lib/pdf2img";
 import { usePuterStore } from "~/lib/puter";
+import { useTheme } from "~/lib/useTheme";
 import { generateUUID } from "~/lib/utils";
+import clsx from "clsx";
 
 const Upload = () => {
   const { auth, isLoading, fs, ai, kv } = usePuterStore();
   const navigate = useNavigate();
+  const isDark = useTheme();
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusText, setStatusText] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -93,7 +96,11 @@ const Upload = () => {
     handleAnalyze({ companyName, jobTitle, jobDescription, file });
   };
   return (
-    <main className="bg-[url('/images/bg-main.svg')] bg-cover">
+    <main className={clsx(
+      isDark 
+        ? "dark-bg-blurred" 
+        : "bg-[url('/images/bg-main.svg')] bg-cover"
+    )}>
       <Navbar />
       <section className="main-section">
         <div className="page-heading py-16">

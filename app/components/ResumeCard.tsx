@@ -30,13 +30,13 @@ const ResumeCard = ({
       <div className="resume-card-header">
         <div className="flex flex-col gap-2">
           {companyName && (
-            <h2 className="!text-black font-bold break-words">{companyName}</h2>
+            <h2 className="font-bold break-words" style={{ color: "var(--color-text)" }}>{companyName}</h2>
           )}
           {jobTitle && (
-            <h3 className="text-lg break-words text-gray-500">{jobTitle}</h3>
+            <h3 className="text-lg break-words" style={{ color: "var(--color-secondary)" }}>{jobTitle}</h3>
           )}
           {!companyName && !jobTitle && (
-            <h2 className="!text-black font-bold">Resume</h2>
+            <h2 className="font-bold" style={{ color: "var(--color-text)" }}>Resume</h2>
           )}
         </div>
         <div className="flex-shrink-0">

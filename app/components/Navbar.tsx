@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import ThemeToggle from "~/components/ThemeToggle";
 
 const Navbar = () => {
   return (
@@ -6,9 +7,12 @@ const Navbar = () => {
       <Link to="/">
         <p className="text-2xl font-bold text-gradient">Called to Work</p>
       </Link>
-      <Link to="/upload" className="primary-button w-fit">
-        Upload Resume
-      </Link>
+      <div className="flex items-center gap-4">
+        <ThemeToggle />
+        <Link to="/upload" className="primary-button w-fit">
+          Upload Resume
+        </Link>
+      </div>
     </nav>
   );
 };

@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { usePuterStore } from "~/lib/puter";
+import { useTheme } from "~/lib/useTheme";
+import clsx from "clsx";
 
 export const meta = () => [
   { title: "Called to Work | Auth" },
@@ -12,11 +14,17 @@ const Auth = () => {
   const location = useLocation();
   const next = location.search.split("next=")[1];
   const navigate = useNavigate();
+  const isDark = useTheme();
   useEffect(() => {
     if (auth.isAuthenticated) navigate(next);
   }, [auth.isAuthenticated]);
   return (
-    <main className="bg-[url('/images/bg-auth.svg')] bg-cover min-h-screen flex items-center justify-center">
+    <main className={clsx(
+      "min-h-screen flex items-center justify-center",
+      isDark 
+        ? "dark-bg-blurred" 
+        : "bg-[url('/images/bg-auth.svg')] bg-cover"
+    )}>
       <div className="gradient-boder shadow-lg">
         <section className="flex flex-col gap-8 bg-white rounded-2xl p-10">
           <div className="flex flex-col gap-2 items-center text-center">
