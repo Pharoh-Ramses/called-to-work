@@ -5,6 +5,7 @@ import FileUploader from "~/components/FileUploader";
 import Navbar from "~/components/Navbar";
 import { convertPdfToImage } from "~/lib/pdf2img";
 import { usePuterStore } from "~/lib/puter";
+import { ResumeParser } from "~/lib/resumeParser";
 import { useTheme } from "~/lib/useTheme";
 import { generateUUID } from "~/lib/utils";
 import clsx from "clsx";
@@ -76,8 +77,66 @@ const Upload = () => {
         ? feedback.message.content
         : feedback.message.content[0].text;
 
-    data.feedback = JSON.parse(feedbackText);
+    console.log("Raw AI Response:", feedbackText);
+
+    try {
+      data.feedback = JSON.parse(feedbackText);
+      console.log("Parsed feedback:", data.feedback);
+    } catch (parseError) {
+      console.error("Failed to parse AI response:", parseError);
+      console.log("Raw response that failed to parse:", feedbackText);
+      return setStatusText("Error parsing AI response");
+    }
     await kv.set(`resume:${uuid}`, JSON.stringify(data));
+
+    // Create structured resume model for optimization
+    // Try to parse as enhanced response first, fall back to legacy
+    let resumeModel: ResumeModel;
+    try {
+      const parsed = JSON.parse(feedbackText);
+      console.log("Checking parsed structure:", {
+        hasFeedback: !!parsed.feedback,
+        hasExtractedData: !!parsed.extractedData,
+        hasATS: !!parsed.ATS,
+        hasOverallScore: !!parsed.overallScore,
+        keys: Object.keys(parsed),
+      });
+
+      if (parsed.feedback && parsed.extractedData) {
+        // Enhanced response format
+        console.log("Using enhanced response format");
+        resumeModel = ResumeParser.parseEnhancedAIResponse(feedbackText, uuid, {
+          companyName,
+          jobTitle,
+          jobDescription,
+        });
+      } else if (parsed.ATS || parsed.overallScore) {
+        // Legacy format (direct feedback object)
+        console.log("Using legacy format");
+        resumeModel = ResumeParser.parseAIFeedbackToResumeModel(parsed, uuid, {
+          companyName,
+          jobTitle,
+          jobDescription,
+        });
+      } else {
+        // Try to extract from nested structure
+        console.log("Trying to extract from nested structure");
+        resumeModel = ResumeParser.parseAIFeedbackToResumeModel(
+          feedbackText,
+          uuid,
+          { companyName, jobTitle, jobDescription },
+        );
+      }
+    } catch (error) {
+      console.error("All parsing attempts failed:", error);
+      // Create empty model with basic structure
+      resumeModel = ResumeParser.createEmptyResumeModel(uuid);
+      resumeModel.optimization.targetJobId = uuid;
+      resumeModel.optimization.targetJobTitle = jobTitle;
+      resumeModel.optimization.targetCompany = companyName;
+    }
+    await kv.set(`resume_model:${uuid}`, JSON.stringify(resumeModel));
+
     setStatusText("Resume analyzed successfully, redirecting...");
     console.log(data);
     navigate(`/resume/${uuid}`);
@@ -96,11 +155,11 @@ const Upload = () => {
     handleAnalyze({ companyName, jobTitle, jobDescription, file });
   };
   return (
-    <main className={clsx(
-      isDark 
-        ? "dark-bg-blurred" 
-        : "bg-[url('/images/bg-main.svg')] bg-cover"
-    )}>
+    <main
+      className={clsx(
+        isDark ? "dark-bg-blurred" : "bg-[url('/images/bg-main.svg')] bg-cover",
+      )}
+    >
       <Navbar />
       <section className="main-section">
         <div className="page-heading py-16">

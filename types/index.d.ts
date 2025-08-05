@@ -5,6 +5,7 @@ interface Job {
   requiredSkills: string[];
 }
 
+// Legacy Resume interface (for backward compatibility)
 interface Resume {
   id: string;
   companyName?: string;
@@ -12,6 +13,17 @@ interface Resume {
   imagePath: string;
   resumePath: string;
   feedback: Feedback;
+}
+
+// Extended Resume interface with job description
+interface ResumeData {
+  id: string;
+  resumePath: string;
+  imagePath: string;
+  companyName: string;
+  jobTitle: string;
+  jobDescription: string;
+  feedback: Feedback | string;
 }
 
 interface Feedback {

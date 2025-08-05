@@ -36,10 +36,13 @@ const Summary = ({ feedback }: { feedback: Feedback }) => {
           </p>
         </div>
       </div>
-      <Category title="Tone and Style" score={feedback.toneAndStyle.score} />
-      <Category title="Content" score={feedback.content.score} />
-      <Category title="Structure" score={feedback.structure.score} />
-      <Category title="Skills" score={feedback.skills.score} />
+      <Category
+        title="Tone and Style"
+        score={feedback.toneAndStyle?.score || 0}
+      />
+      <Category title="Content" score={feedback.content?.score || 0} />
+      <Category title="Structure" score={feedback.structure?.score || 0} />
+      <Category title="Skills" score={feedback.skills?.score || 0} />
     </div>
   );
 };
