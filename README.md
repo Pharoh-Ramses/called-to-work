@@ -1,62 +1,88 @@
-# Welcome to React Router!
+# Called to Work
 
-A modern, production-ready template for building full-stack React applications using React Router.
+> Helping the saints gain employment through AI-powered resume analysis and job application tracking.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+**Called to Work** is a modern web application that helps job seekers optimize their resumes for specific positions using AI-powered analysis and track their job applications with detailed feedback.
 
-## Features
+## ✨ Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- **🤖 AI-Powered Resume Analysis** - Get comprehensive feedback on your resume with ATS compatibility scoring
+- **📊 Multi-Category Scoring** - Detailed analysis across tone/style, content, structure, and skills
+- **📋 Application Tracking** - Keep track of all your job applications and their feedback in one place
+- **🎯 Job-Specific Analysis** - Tailor your resume analysis to specific job descriptions and companies
+- **📱 Responsive Design** - Works seamlessly across desktop and mobile devices
+- **🌙 Dark/Light Theme** - Toggle between themes for comfortable viewing
+- **📄 PDF Processing** - Upload PDF resumes with automatic image conversion for analysis
+- **🔐 Secure Authentication** - User authentication and data storage via Puter.com
 
-## Getting Started
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or bun package manager
+- A [Puter.com](https://puter.com) account for backend services
 
 ### Installation
 
-Install the dependencies:
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/called-to-work.git
+cd called-to-work
+```
 
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
-
+3. Start the development server:
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+4. Open your browser and navigate to `http://localhost:5173`
 
-## Building for Production
+## 🛠️ Available Scripts
 
-Create a production build:
+- `npm run dev` - Start development server with HMR
+- `npm run build` - Create production build
+- `npm run start` - Start production server
+- `npm run typecheck` - Run TypeScript type checking
+
+## 📖 How It Works
+
+1. **Upload Resume** - Upload your PDF resume along with job details (company name, job title, job description)
+2. **AI Analysis** - The system analyzes your resume against the specific job requirements using AI
+3. **Get Feedback** - Receive detailed scores and actionable suggestions across multiple categories:
+   - **ATS Score** - How well your resume performs with Applicant Tracking Systems
+   - **Tone & Style** - Professional language and presentation analysis
+   - **Content** - Relevance and quality of your experience and achievements
+   - **Structure** - Organization and formatting assessment
+   - **Skills** - Technical and soft skills alignment with job requirements
+4. **Track Applications** - View all your analyzed resumes and track your job application progress
+
+## 🏗️ Tech Stack
+
+- **Frontend**: React Router v7, TypeScript, Tailwind CSS
+- **State Management**: Zustand
+- **File Processing**: PDF.js for PDF handling
+- **Backend Services**: Puter.com (file storage, AI analysis, authentication)
+- **Deployment**: Docker-ready with production builds
+
+## 🐳 Docker Deployment
+
+Build and run with Docker:
 
 ```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
+# Build the image
+docker build -t called-to-work .
 
 # Run the container
-docker run -p 3000:3000 my-app
+docker run -p 3000:3000 called-to-work
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
-
+Deploy to any Docker-compatible platform:
 - AWS ECS
 - Google Cloud Run
 - Azure Container Apps
@@ -64,25 +90,40 @@ The containerized application can be deployed to any platform that supports Dock
 - Fly.io
 - Railway
 
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+## 📁 Project Structure
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+called-to-work/
+├── app/
+│   ├── components/          # Reusable UI components
+│   ├── lib/                # Utilities and hooks
+│   ├── routes/             # Application routes
+│   └── app.css            # Global styles
+├── constants/              # Application constants
+├── public/                # Static assets
+├── types/                 # TypeScript type definitions
+└── README.md
 ```
 
-## Styling
+## 🤝 Contributing
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with [React Router](https://reactrouter.com/)
+- Powered by [Puter.com](https://puter.com) for backend services
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- PDF processing via [PDF.js](https://mozilla.github.io/pdf.js/)
 
 ---
 
-Built with ❤️ using React Router.
-# called-to-work
+**Called to Work** - Empowering job seekers with AI-driven insights to land their dream jobs. 🎯
