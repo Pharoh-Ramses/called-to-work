@@ -4,6 +4,16 @@
 
 **Called to Work** is a modern web application that helps job seekers optimize their resumes for specific positions using AI-powered analysis and track their job applications with detailed feedback.
 
+## 💰 Zero Backend Costs for Developers
+
+**Users pay for their own backend usage directly through Puter.com** - meaning as a developer, you never have to worry about:
+- ❌ Backend infrastructure costs
+- ❌ AI API bills scaling with users
+- ❌ Storage costs growing over time
+- ❌ Unexpected usage spikes
+
+Each user creates their own free Puter.com account and pays only for what they use. Deploy once, scale infinitely without backend costs!
+
 ## ✨ Features
 
 - **🤖 AI-Powered Resume Analysis** - Get comprehensive feedback on your resume with ATS compatibility scoring
@@ -21,7 +31,8 @@
 
 - Node.js 18+ 
 - npm or bun package manager
-- A [Puter.com](https://puter.com) account for backend services
+- **Users need their own [Puter.com](https://puter.com) account** (free to start, pay-as-you-use)
+  - **No backend costs for developers!** Each user pays for their own AI analysis and storage
 
 ### Installation
 
@@ -68,6 +79,7 @@ npm run dev
 - **State Management**: Zustand
 - **File Processing**: PDF.js for PDF handling
 - **Backend Services**: Puter.com (file storage, AI analysis, authentication)
+  - **🎯 User-funded backend**: Each user pays for their own usage - zero backend costs for developers!
 - **Deployment**: Docker-ready with production builds
 
 ## 🐳 Docker Deployment
@@ -120,9 +132,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Built with [React Router](https://reactrouter.com/)
-- Powered by [Puter.com](https://puter.com) for backend services
+- Powered by [Puter.com](https://puter.com) for user-funded backend services
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
 - PDF processing via [PDF.js](https://mozilla.github.io/pdf.js/)
+
+## 🚀 Why Puter.com?
+
+**Called to Work** leverages Puter.com's innovative user-funded model:
+- **Developers deploy for free** - no ongoing backend costs
+- **Users pay only for what they use** - AI analysis, file storage, and processing
+- **Scales automatically** - from 1 to 1 million users without developer cost concerns
+- **No vendor lock-in** - users own their data and usage
+
+Perfect for indie developers and startups who want to build powerful AI applications without the financial risk of backend scaling costs.
 
 ---
 
