@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { usePuterStore } from "~/lib/puter";
-import { useTheme } from "~/lib/useTheme";
-import clsx from "clsx";
+import Button from "~/components/Button";
+import Card from "~/components/Card";
+import { Heading, Text } from "~/components/Typography";
 
 export const meta = () => [
   { title: "Called to Work | Auth" },
@@ -14,44 +15,38 @@ const Auth = () => {
   const location = useLocation();
   const next = location.search.split("next=")[1];
   const navigate = useNavigate();
-  const isDark = useTheme();
   useEffect(() => {
     if (auth.isAuthenticated) navigate(next);
   }, [auth.isAuthenticated]);
   return (
-    <main className={clsx(
-      "min-h-screen flex items-center justify-center",
-      isDark 
-        ? "dark-bg-blurred" 
-        : "bg-[url('/images/bg-auth.svg')] bg-cover"
-    )}>
-      <div className="gradient-boder shadow-lg">
-        <section className="flex flex-col gap-8 bg-white rounded-2xl p-10">
-          <div className="flex flex-col gap-2 items-center text-center">
-            <h1>Welcome</h1>
-            <p>Login to continue your pilgrimage</p>
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1e2030] to-[#24273a]">
+      <Card variant="gradient" className="max-w-md w-full">
+        <div className="flex flex-col gap-8 items-center text-center">
+          <div className="flex flex-col gap-2">
+            <Heading level={1}>Welcome</Heading>
+            <Text variant="muted">Login to continue your pilgrimage</Text>
           </div>
-          <div>
+          <div className="w-full">
             {isLoading ? (
-              <button className="auth-button animate-pulse">
-                <p>Signing you in...</p>
-              </button>
+              <Button variant="auth" size="xl" loading>
+                Signing you in...
+              </Button>
             ) : (
               <>
                 {auth.isAuthenticated ? (
-                  <button className="auth-button" onClick={auth.signOut}>
-                    <p>Logout</p>
-                  </button>
+                  <Button variant="auth" size="xl" onClick={auth.signOut}>
+                    Logout
+                  </Button>
                 ) : (
-                  <button className="auth-button" onClick={auth.signIn}>
-                    <p>Sign in</p>
-                  </button>
+                  <Button variant="auth" size="xl" onClick={auth.signIn}>
+                    Sign in
+                  </Button>
                 )}
               </>
             )}
           </div>
-        </section>
-      </div>
+        </div>
+      </Card>
     </main>
   );
 };

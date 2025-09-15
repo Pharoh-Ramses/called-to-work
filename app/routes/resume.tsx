@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import ATS from "~/components/ATS";
 import Details from "~/components/Details";
+import Navbar from "~/components/Navbar";
 import Summary from "~/components/Summary";
 import { usePuterStore } from "~/lib/puter";
-import { useTheme } from "~/lib/useTheme";
-import clsx from "clsx";
 
 export const meta = () => [
   { title: "Called to Work | Review" },
@@ -19,7 +18,6 @@ const Resume = () => {
   const { auth, isLoading, fs, kv } = usePuterStore();
   const { id } = useParams();
   const navigate = useNavigate();
-  const isDark = useTheme();
 
   useEffect(() => {
     if (!isLoading && !auth.isAuthenticated)
@@ -51,39 +49,31 @@ const Resume = () => {
   }, [id]);
 
   return (
-    <main className="!pt-0">
-      <nav className="resume-nav">
-        <Link to="/" className="back-button">
-          <img src="/icons/back.svg" className="w-2.5 h-2.5" alt="Back" />
-          <span className="text-gray-800 text-sm font-semibold">
-            Back to home page
-          </span>
-        </Link>
-      </nav>
-      <div className="flex flex-row w-full max-lg:flex-col-reverse">
-        <section className={clsx(
-          "feedback-section h[100vh] sticky top-0 items-center justify-center",
-          isDark 
-            ? "dark-bg-blurred" 
-            : "bg-[url('/images/bg-small.svg')] bg-cover"
-        )}>
-          {imageUrl && resumeUrl && (
-            <div className="animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit">
-              <a href={resumeUrl} target="_blank" rel="noreferrer">
+    <main className="h-screen overflow-hidden">
+      <Navbar />
+      <div className="flex flex-row w-full max-lg:flex-col-reverse h-screen">
+        <section className="feedback-section h-full sticky top-0 items-center justify-center" style={{ background: 'linear-gradient(to bottom right, var(--color-mantle), var(--color-base))' }}>
+          {imageUrl && resumeUrl ? (
+            <div className="animate-in fade-in duration-300 gradient-border max-sm:m-4 h-[85%] max-w-xl:h-fit w-fit shadow-2xl">
+              <a href={resumeUrl} target="_blank" rel="noreferrer" className="block">
                 <img
                   src={imageUrl}
                   alt="Resume"
-                  className="w-full h-full object-contain rounded-2xl"
-                  title="Resume"
+                  className="w-full h-full max-h-[80vh] object-contain rounded-2xl transition-transform duration-300 hover:scale-105"
+                  title="Click to view full PDF"
                 />
               </a>
             </div>
+          ) : (
+            <div className="flex items-center justify-center h-[85%]">
+              <img src="/images/resume-scan-2.gif" className="w-32 h-32 max-h-[80vh] rounded-2xl shadow-lg" />
+            </div>
           )}
         </section>
-        <section className="feedback-section">
-          <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
+        <section className="feedback-section p-8 overflow-y-auto">
+          <h2 className="text-4xl font-bold mb-8" style={{ color: '#de9f7c' }}>Resume Review</h2>
           {feedback ? (
-            <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
+            <div className="flex flex-col gap-10 animate-in fade-in duration-300">
               <Summary feedback={feedback} />
               <ATS
                 score={feedback.ATS.score || 0}
@@ -92,7 +82,9 @@ const Resume = () => {
               <Details feedback={feedback} />
             </div>
           ) : (
-            <img src="/images/resume-scan-2.gif" className="w-full" />
+            <div className="flex items-center justify-center h-64">
+              <img src="/images/resume-scan-2.gif" className="w-48 h-48 rounded-2xl shadow-lg" />
+            </div>
           )}
         </section>
       </div>

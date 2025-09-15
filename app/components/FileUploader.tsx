@@ -40,10 +40,10 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
 
             <div className="flex items-center space-x-3">
               <div>
-                <p className="text-sm text-gray-700 font-medium truncate max-w-xs">
+                <p className="text-sm text-slate-200 font-medium truncate max-w-xs">
                   {file.name}
                 </p>
-                <p className="text-sm text-gray-500">{formatSize(file.size)}</p>
+                <p className="text-sm text-slate-400">{formatSize(file.size)}</p>
               </div>
             </div>
             <button
@@ -56,18 +56,18 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
             </button>
           </div>
         ) : (
-          <div>
-            <div className="mx-auto w-16 h-16 flex items-center justify-center mb-2">
-              <img src="/icons/info.svg" alt="upload" className="size-20" />
-            </div>
+            <div>
+              <div className="mx-auto w-16 h-16 flex items-center justify-center mb-2">
+                <img src="/icons/info.svg" alt="upload" className="size-20" />
+              </div>
 
-            <p className="text-lg text-gray-500">
-              <span className="font-semibold">Click to upload</span>
-            </p>
-            <p className="text-lg text-gray-500">
-              PDF (max {formatSize(maxFileSize)})
-            </p>
-          </div>
+              <p className="text-lg text-slate-400">
+                <span className="font-semibold text-slate-300">Click to upload</span>
+              </p>
+              <p className="text-lg text-slate-400">
+                PDF (max {formatSize(maxFileSize)})
+              </p>
+            </div>
         )}
       </div>
     </div>

@@ -1,18 +1,17 @@
 import { prepareInstructions } from "constants/index";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
+import Button from "~/components/Button";
 import FileUploader from "~/components/FileUploader";
 import Navbar from "~/components/Navbar";
+import PageHeader from "~/components/PageHeader";
 import { convertPdfToImage } from "~/lib/pdf2img";
 import { usePuterStore } from "~/lib/puter";
-import { useTheme } from "~/lib/useTheme";
 import { generateUUID } from "~/lib/utils";
-import clsx from "clsx";
 
 const Upload = () => {
-  const { auth, isLoading, fs, ai, kv } = usePuterStore();
+  const { fs, ai, kv } = usePuterStore();
   const navigate = useNavigate();
-  const isDark = useTheme();
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusText, setStatusText] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -96,72 +95,63 @@ const Upload = () => {
     handleAnalyze({ companyName, jobTitle, jobDescription, file });
   };
   return (
-    <main className={clsx(
-      isDark 
-        ? "dark-bg-blurred" 
-        : "bg-[url('/images/bg-main.svg')] bg-cover"
-    )}>
+    <main className="bg-gradient-to-br from-[#1e2030] to-[#24273a]">
       <Navbar />
       <section className="main-section">
-        <div className="page-heading py-16">
-          <h1>Smart feedback for your desired job</h1>
-          {isProcessing ? (
-            <>
-              <h2>{statusText}</h2>
-              <img
-                src="/images/resume-scan.gif"
-                alt="Resume scan"
-                className="w-full"
+        <PageHeader
+          title="Smart feedback for your desired job"
+          subtitle={isProcessing ? statusText : "Upload your resume for an ATS score and feedback"}
+          className="py-16"
+        />
+        {isProcessing && (
+          <img
+            src="/images/resume-scan.gif"
+            alt="Resume scan"
+            className="w-full"
+          />
+        )}
+        {!isProcessing && (
+          <form
+            id="upload-form"
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 mt-8"
+          >
+            <div className="form-div">
+              <label htmlFor="Company Name">Company Name</label>
+              <input
+                type="text"
+                name="company-name"
+                id="company-name"
+                placeholder="Company Name"
               />
-            </>
-          ) : (
-            <>
-              <h2>Upload your resume for an ATS score and feedback</h2>
-            </>
-          )}
-          {!isProcessing && (
-            <form
-              id="upload-form"
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-4 mt-8"
-            >
-              <div className="form-div">
-                <label htmlFor="Company Name">Company Name</label>
-                <input
-                  type="text"
-                  name="company-name"
-                  id="company-name"
-                  placeholder="Company Name"
-                />
-              </div>
-              <div className="form-div">
-                <label htmlFor="Job Title">Job Title</label>
-                <input
-                  type="text"
-                  name="job-title"
-                  id="job-title"
-                  placeholder="Job Title"
-                />
-              </div>
-              <div className="form-div">
-                <label htmlFor="Job Description">Job Description</label>
-                <textarea
-                  rows={5}
-                  name="job-description"
-                  id="job-description"
-                  placeholder="Job Description"
-                />
-              </div>
-              <div className="form-div">
-                <label htmlFor="uploader">Upload Resume</label>
-                <FileUploader onFileSelect={handleFileSelect} />
-              </div>
-              <button className="primary-button" type="submit">
-                Analyze Resume
-              </button>
-            </form>
-          )}
-        </div>
+            </div>
+            <div className="form-div">
+              <label htmlFor="Job Title">Job Title</label>
+              <input
+                type="text"
+                name="job-title"
+                id="job-title"
+                placeholder="Job Title"
+              />
+            </div>
+            <div className="form-div">
+              <label htmlFor="Job Description">Job Description</label>
+              <textarea
+                rows={5}
+                name="job-description"
+                id="job-description"
+                placeholder="Job Description"
+              />
+            </div>
+            <div className="form-div">
+              <label htmlFor="uploader">Upload Resume</label>
+              <FileUploader onFileSelect={handleFileSelect} />
+            </div>
+            <Button variant="primary" type="submit">
+              Analyze Resume
+            </Button>
+          </form>
+        )}
       </section>
     </main>
   );

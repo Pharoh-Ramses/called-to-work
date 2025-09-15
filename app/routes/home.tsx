@@ -1,11 +1,11 @@
 import type { Route } from "./+types/home";
+import Button from "~/components/Button";
 import Navbar from "~/components/Navbar";
+import PageHeader from "~/components/PageHeader";
 import ResumeCard from "~/components/ResumeCard";
 import { usePuterStore } from "~/lib/puter";
-import { useTheme } from "~/lib/useTheme";
-import { Link, useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,7 +17,6 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const { auth, kv } = usePuterStore();
   const navigate = useNavigate();
-  const isDark = useTheme();
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [loadingResumes, setLoadingResumes] = useState(false);
 
@@ -41,41 +40,35 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={clsx(
-      isDark 
-        ? "dark-bg-blurred" 
-        : "bg-[url('/images/bg-main.svg')] bg-cover"
-    )}>
+    <main className="home-main">
       <Navbar />
       <section className="main-section">
-        <div className="page-heading py-16">
-          <h1>Track your Applications & Resume Ratings</h1>
-          {!loadingResumes && resumes.length === 0 ? (
-            <h2>No resumes found, upload your resumes to get started</h2>
-          ) : (
-            <h2>Review your submissions and check AI-powered feedback</h2>
-          )}
-        </div>
+        <PageHeader
+          title="Track your Applications & Resume Ratings"
+          subtitle={
+            !loadingResumes && resumes.length === 0
+              ? "No resumes found, upload your resumes to get started"
+              : "Review your submissions and check AI-powered feedback"
+          }
+          className="py-16"
+        />
         {loadingResumes && (
-          <div className="flex flex-col items-center justify-center">
-            <img src="/images/resume-scan-2.gif" className="w-[200px]" />
+          <div className="loading-section">
+            <img src="/images/resume-scan-2.gif" className="w-[250px] rounded-2xl shadow-lg" />
           </div>
         )}
         {!loadingResumes && resumes.length > 0 && (
-          <div className="resumes-section">
+          <div className="resumes-section animate-fade-in">
             {resumes.map((resume) => (
               <ResumeCard key={resume.id} resume={resume} />
             ))}
           </div>
         )}
         {!loadingResumes && resumes.length === 0 && (
-          <div className="flex flex-col items-center justify-center mt-10 gap-4">
-            <Link
-              to="/upload"
-              className="primary-button w-fit text-xl font-semibold"
-            >
+          <div className="upload-section">
+            <Button as="link" to="/upload" variant="primary" size="xl">
               Upload Resume
-            </Link>
+            </Button>
           </div>
         )}
       </section>

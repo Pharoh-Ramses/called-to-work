@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import Button from "~/components/Button";
 import { usePuterStore } from "~/lib/puter";
 
 const WipeApp = () => {
@@ -50,12 +51,9 @@ const WipeApp = () => {
         ))}
       </div>
       <div>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
-          onClick={() => handleDelete()}
-        >
+        <Button variant="primary" onClick={() => handleDelete()}>
           Wipe App Data
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -4,10 +4,10 @@ import ScoreBadge from "./ScoreBadge";
 const Category = ({ title, score }: { title: string; score: number }) => {
   const textColor =
     score > 70
-      ? "text-green-600"
+      ? "text-green-400"
       : score > 49
-        ? "text-yellow-600"
-        : "text-red-600";
+        ? "text-yellow-400"
+        : "text-red-400";
 
   return (
     <div className="resume-summary">
@@ -26,12 +26,12 @@ const Category = ({ title, score }: { title: string; score: number }) => {
 
 const Summary = ({ feedback }: { feedback: Feedback }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-md w-full">
+    <div className="bg-slate-800 rounded-2xl shadow-md w-full">
       <div className="flex flex-row items-center p-4 gap-8">
         <ScoreGauge score={feedback.overallScore} />
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold">Overall Score</h2>
-          <p className="text-sm text-gray-500">
+          <h2 className="text-2xl font-bold text-slate-100">Overall Score</h2>
+          <p className="text-sm text-slate-400">
             This score is based on the ATS score and the tone and style score.
           </p>
         </div>

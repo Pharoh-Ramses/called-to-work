@@ -25,32 +25,38 @@ const ResumeCard = ({
   return (
     <Link
       to={`/resume/${id}`}
-      className="resume-card animate-in fade-in duration-1000"
+      className="resume-card animate-in fade-in duration-500"
     >
       <div className="resume-card-header">
         <div className="flex flex-col gap-2">
           {companyName && (
-            <h2 className="font-bold break-words" style={{ color: "var(--color-text)" }}>{companyName}</h2>
+            <h2 className="font-bold break-words" style={{ color: '#8aba89' }}>{companyName}</h2>
           )}
           {jobTitle && (
-            <h3 className="text-lg break-words" style={{ color: "var(--color-secondary)" }}>{jobTitle}</h3>
+            <h3 className="text-lg break-words" style={{ color: '#8aba89' }}>{jobTitle}</h3>
           )}
           {!companyName && !jobTitle && (
-            <h2 className="font-bold" style={{ color: "var(--color-text)" }}>Resume</h2>
+            <h2 className="font-bold" style={{ color: '#8aba89' }}>Resume</h2>
           )}
         </div>
         <div className="flex-shrink-0">
           <ScoreCircle score={feedback.overallScore} />
         </div>
       </div>
-      {resumeUrl && (
-        <div className="gradient-border animate-in fade-in duration-1000">
+      {resumeUrl ? (
+        <div className="gradient-border animate-in fade-in duration-300">
           <div className="w-full h-full">
             <img
               src={resumeUrl}
               alt="Resume"
               className="w-full h-[350px] max-sm:h-[200px] object-cover object-top"
             />
+          </div>
+        </div>
+      ) : (
+        <div className="gradient-border animate-in fade-in duration-300">
+          <div className="w-full h-[350px] max-sm:h-[200px] flex items-center justify-center" style={{ backgroundColor: 'var(--color-surface1)' }}>
+            <span style={{ color: 'var(--color-subtext0)' }}>Loading...</span>
           </div>
         </div>
       )}
